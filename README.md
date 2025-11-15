@@ -87,3 +87,25 @@ Crop type
 Soil condition
 
 Nutrient deficiency levels
+
+
+
+
+🔧 Installation & Setup
+1) Clone the repository
+git clone https://github.com/your-username/AI-Crop-Fertilizer-Recommendation.git
+cd AI-Crop-Fertilizer-Recommendation
+
+2) Install dependencies
+pip install -r requirements.txt
+
+3) Run the notebook
+jupyter notebook
+
+4) Run Flask / Streamlit App (if included)
+python app/app.py
+
+
+or
+
+streamlit run app/app.py
