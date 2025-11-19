@@ -1,0 +1,58 @@
+---
+- name: Deploy AI Crop & Fertilizer App
+  hosts: crop_server
+
+  become: yes
+
+  tasks:
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - python3-pip
+          - python3-venv
+        state: present
+
+    - name: Create app directory
+      file:
+        path: /opt/crop_app
+        state: directory
+
+    - name: Copy project files
+      copy:
+        src: "{{ item }}"
+        dest: "/opt/crop_app/"
+      loop:
+        - "../app.py"
+        - "../crop_model.pkl"
+        - "../requirements.txt"
+
+    - name: Create virtual environment
+      command: python3 -m venv /opt/crop_app/venv
+
+    - name: Install Python dependencies
+      command: /opt/crop_app/venv/bin/pip install -r /opt/crop_app/requirements.txt
+
+    - name: Create systemd service
+      copy:
+        dest: /etc/systemd/system/crop_app.service
+        content: |
+          [Unit]
+          Description=Crop Recommendation Streamlit App
+          After=network.target
+
+          [Service]
+          ExecStart=/opt/crop_app/venv/bin/streamlit run /opt/crop_app/app.py --server.port=8501 --server.address=0.0.0.0
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Start and enable service
+      systemd:
+        name: crop_app.service
+        enabled: yes
+        state: started
