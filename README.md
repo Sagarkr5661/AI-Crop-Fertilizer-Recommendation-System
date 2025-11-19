@@ -21,3 +21,6 @@
 ```bash
 git clone https://github.com/Sagarkr5661/AI-Crop-Fertilizer-Recommendation-System.git
 cd AI-Crop-Fertilizer-Recommendation-System
+
+### Deploy On Streamlit
+https://ai-crop-fertilizer-recommendation-system-dwg78d5dg7qjsyajzkhik.streamlit.app/
